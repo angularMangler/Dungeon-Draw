@@ -36,16 +36,12 @@ var DungeonDoors = DungeonDoors || (function(){
             objCheck = checkSelect(selected),
             token,
             name,
-            id,
             pack = [],
-            packName,
-            findPaths,
-            a, b;
+            packName;
         
         if ( false === objCheck ) {return; }    
         token = getObj('graphic', selected._id);
         name = token.get('name');
-        id = token.get('id');
         
         pack = _.where(currentTiles, {url: token.get('imgsrc')});
         packName = pack[0].pack;
@@ -54,52 +50,36 @@ var DungeonDoors = DungeonDoors || (function(){
         switch(name) {
             case 'DD_017':
             case 'DD_018':
-                a = _.where(pack, {key: 'DD_017'})[0].url;
-                b = _.where(pack, {key: 'DD_018'})[0].url;
-                token.set({
-                    imgsrc: (token.get('imgsrc') === a ? b : a),
-                    name: (token.get('name') === 'DD_017' ? 'DD_018' : 'DD_017')
-                    });
+                flipToken('DD_017', 'DD_018', token, pack);
             break;
             case 'DD_019':
             case 'DD_020':
-                a = _.where(pack, {key: 'DD_019'})[0].url;
-                b = _.where(pack, {key: 'DD_020'})[0].url;
-                token.set({
-                    imgsrc: (token.get('imgsrc') === a ? b : a),
-                    name: (token.get('name') === 'DD_019' ? 'DD_020' : 'DD_019')
-                    });
+                flipToken('DD_019', 'DD_020', token, pack);
             break;
             case 'DD_021':
             case 'DD_022':
-                a = _.where(pack, {key: 'DD_021'})[0].url;
-                b = _.where(pack, {key: 'DD_022'})[0].url;
-                token.set({
-                    imgsrc: (token.get('imgsrc') === a ? b : a),
-                    name: (token.get('name') === 'DD_021' ? 'DD_022' : 'DD_021')
-                    });
+                flipToken('DD_021', 'DD_022', token, pack);
             break;
             case 'DD_023':
             case 'DD_024':
-                a = _.where(pack, {key: 'DD_023'})[0].url;
-                b = _.where(pack, {key: 'DD_024'})[0].url;
-                token.set({
-                    imgsrc: (token.get('imgsrc') === a ? b : a),
-                    name: (token.get('name') === 'DD_023' ? 'DD_024' : 'DD_023')
-                    });
+                flipToken('DD_023', 'DD_024', token, pack);
             break;
             case 'DD_027':
             case 'DD_028':
-                a = _.where(pack, {key: 'DD_027'})[0].url;
-                b = _.where(pack, {key: 'DD_028'})[0].url;
-                token.set({
-                    imgsrc: (token.get('imgsrc') === a ? b : a),
-                    name: (token.get('name') === 'DD_027' ? 'DD_028' : 'DD_027')
-                    });
+                flipToken('DD_027', 'DD_028', token, pack);
             break;
         }
         
         refreshGraphic(token);
+    },
+    
+    flipToken = function(front,back,token,pack) {
+        var a = _.where(pack, {key: front})[0].url;
+        var b = _.where(pack, {key: back})[0].url;
+        token.set({
+            imgsrc: (token.get('imgsrc') === a ? b : a),
+            name: (token.get('name') === front ? back : front)
+            });        
     },
     
     pathingRotation = function(angle, point,width,height) {
